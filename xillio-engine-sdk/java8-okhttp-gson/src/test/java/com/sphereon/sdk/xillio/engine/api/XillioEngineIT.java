@@ -35,18 +35,21 @@ import java.util.List;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class XillioEngineIT {
 
+    private static final boolean ENABLE_FIDDLER = false;
     static {
-        // to support localhost.fiddler
-        System.setProperty("http.proxyHost", "127.0.0.1");
-        System.setProperty("https.proxyHost", "127.0.0.1");
-        System.setProperty("http.proxyPort", "8888");
-        System.setProperty("https.proxyPort", "8888");
+        if (ENABLE_FIDDLER) {
+            // to support localhost.fiddler
+            System.setProperty("http.proxyHost", "127.0.0.1");
+            System.setProperty("https.proxyHost", "127.0.0.1");
+            System.setProperty("http.proxyPort", "8888");
+            System.setProperty("https.proxyPort", "8888");
+        }
     }
 
     private static final String FILE_NAME = "IntegrationTest.md";
     private static final URL FILE_URL = XillioEngineIT.class.getResource("/" + FILE_NAME);
 
-    private static final String XILLIO_CONFIGURATION_ID = System.getProperty("xillio.engine.configuration.id", "59e4b5a7857aba0005a28228");
+    private static final String XILLIO_CONFIGURATION_ID = System.getProperty("xillio.engine.configuration.id", "5a0d9e26857aba0005396d53");
     private static final String XILLIO_PATH = System.getProperty("xillio.engine.test.path", "");
     private static final List<String> XILLIO_SCOPE = Arrays.asList("entity", "children");
 
