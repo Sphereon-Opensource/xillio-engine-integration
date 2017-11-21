@@ -1,0 +1,493 @@
+basePath: /v2
+paths:
+  "/entities":
+    get:
+      summary: List Available Entities/Repositories
+      produces:
+        - application/json;charset=UTF-8
+      description: List Available Entities/Repositories
+      operationId: listEntities
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/EntityResponse"
+          description: Entities retrieved
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      parameters:
+        - $ref: "#/parameters/scopeQueryParam"
+        - $ref: "#/parameters/includeQueryParam"
+        - $ref: "#/parameters/excludeQueryParam"
+      tags:
+        - All
+        - Entity
+  "/entities/{configurationId}/{path}":
+    get:
+      summary: Get an Entity
+      produces:
+        - application/json;charset=UTF-8
+      description: Get an Entity
+      operationId: getEntity
+      parameters:
+        - $ref: "#/parameters/configurationIdPathParam"
+        - $ref: "#/parameters/pathPathParam"
+        - $ref: "#/parameters/scopeQueryParam"
+        - $ref: "#/parameters/includeQueryParam"
+        - $ref: "#/parameters/excludeQueryParam"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/EntityResponse"
+          description: Entity retrieved
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Providing an invalid body for mutational functions or Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      tags:
+        - All
+        - Entity
+    post:
+      summary: Create a new Entity
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json;charset=UTF-8
+      description: Create a new Entity
+      operationId: createEntity
+      parameters:
+        - $ref: "#/parameters/configurationIdPathParam"
+        - $ref: "#/parameters/pathPathParam"
+        - $ref: "#/parameters/scopeQueryParam"
+        - $ref: "#/parameters/includeQueryParam"
+        - $ref: "#/parameters/excludeQueryParam"
+        - in: formData
+          name: entity
+          type: string
+        - in: formData
+          name: contents
+          type: string
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/EntityResponse"
+          description: Entity retrieved
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Providing an invalid body for mutational functions or Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      tags:
+        - All
+        - Entity
+    put:
+      summary: Update an existing Entity
+      consumes:
+        - application/json;charset=UTF-8
+      produces:
+        - application/json;charset=UTF-8
+      description: Update an existing Entity
+      operationId: updateEntity
+      parameters:
+        - $ref: "#/parameters/configurationIdPathParam"
+        - $ref: "#/parameters/pathPathParam"
+        - $ref: "#/parameters/scopeQueryParam"
+        - $ref: "#/parameters/includeQueryParam"
+        - $ref: "#/parameters/excludeQueryParam"
+        - in: body
+          name: entity
+          schema:
+            $ref:  "#/definitions/EntityResponse"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/EntityResponse"
+          description: Entity retrieved
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Providing an invalid body or Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      tags:
+        - All
+        - Entity
+    delete:
+      summary: Delete an existing Entity
+      consumes:
+        - application/json;charset=UTF-8
+      description: Delete an existing Entity
+      operationId: deleteEntity
+      parameters:
+        - $ref: "#/parameters/configurationIdPathParam"
+        - $ref: "#/parameters/pathPathParam"
+      responses:
+        "204":
+          description: Entity deleted
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      tags:
+        - All
+        - Entity        
+  "/contents/{configurationId}/{path}":
+    get:
+      summary: Download an Entity"s Binary Content
+      produces:
+        - application/octet-stream
+      description: Download an Entity"s Binary Content
+      operationId: getContent
+      parameters:
+        - $ref: "#/parameters/configurationIdPathParam"
+        - $ref: "#/parameters/pathPathParam"
+      responses:
+        "200":
+          schema:
+            type: file
+          description: Content retrieved
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Providing an invalid body for mutational functions or Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      tags:
+        - All
+        - Content
+    put:
+      summary: Replaces an Entity"s Binary Content
+      consumes:
+        - application/octet-stream
+      description: Replaces an Entity"s Binary Content
+      operationId: updateContent
+      parameters:
+        - $ref: "#/parameters/configurationIdPathParam"
+        - $ref: "#/parameters/pathPathParam"
+      responses:
+        "204":
+          description: Content updated
+        "400":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Providing an invalid body for mutational functions or Not providing a required decorator
+        "404":
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+          description: Accessing an entity or configurationId that does not exist.
+      tags:
+        - All
+        - Content
+host: sandbox.xill.io
+schemes:
+  - https
+securityDefinitions:
+  oauth2schema:
+    tokenUrl: "https://gw.api.cloud.sphereon.com/token"
+    scopes:
+      global: accessEverything
+    type: oauth2
+    flow: application
+parameters:
+  scopeQueryParam:
+    in: query
+    name: scope
+    description: "A comma-separated list of scopes. The available scopes are: children, entity. (default: entity)"
+    type: array
+    collectionFormat: csv
+    items:
+      type: string
+      enum: [entity,children]
+    default: entity
+    allowEmptyValue: false
+    required: false
+  includeQueryParam:
+    in: query
+    name: include
+    description: A comma-separated list of projection rules. Decorators which match these rules will be included. All other decorators will be excluded. By default, all decorators are included.
+    type: string
+    required: false
+  excludeQueryParam:
+    in: query
+    name: exclude
+    description: A comma-separated list of projection rules. Decorators which match these rules will be excluded.
+    type: string
+    required: false
+  configurationIdPathParam:
+    name: configurationId
+    in: path
+    type: string
+    required: true
+    description: The id of a configured repository.
+  pathPathParam:
+    name: path
+    in: path
+    type: string
+    required: false
+    description: The XDIP path to the entity.
+definitions:
+  Entity:
+    description: UDM Entity
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        description: An URL that points to the entity.
+        type: string
+        format: uri
+      kind:
+        description: A simple content type string that describes the best match for the entity.
+        type: string
+      xdip:
+        description: Xdip
+        type: string
+      original:
+        $ref: "#/definitions/Decorators"
+      modified:
+        $ref: "#/definitions/Decorators"
+  ContainerDecorator:
+    description: The container decorator signifies an entity that can have children.
+    type: object
+    required:
+      - hasChildren
+    properties:
+      hasChildren:
+        description: Set to true if this entity may have children
+        type: boolean
+  CreatedDecorator:
+    description: The created decorator signifies when an entity was created.
+    type: object
+    required:
+      - date
+    properties:
+      date:
+        description: The creation date of the entity.
+        type: string
+        format: date-time
+      by:
+        description: The name of the user or entity that created this entity.
+        type: string
+  DescriptionDecorator:
+    description: The description decorator provides a small excerpt or description for an entity. This is generally used as a preview message or subtitle.
+    type: object
+    required:
+      - short
+    properties:
+      short:
+        description: A short extract or subtitle of the entity.
+        type: string
+  FileDecorator:
+    description: The file decorator contains various pieces of information related to files on a file system.
+    type: object
+    required:
+      - extension
+      - rawExtension
+      - size
+    properties:
+      extension:
+        description: The (optionally cleaned) extension of the file.
+        type: string
+      rawExtension:
+        description: The extension of the file as found on the filesystem.
+        type: string
+      size:
+        description: The byte-size of the file in kilobytes.
+        type: number
+  FileSystemDecorator:
+    description: The fileSystem decorator contains the path of a file or folder on a file system.
+    type: object
+    required:
+      - path
+    properties:
+      path:
+        description: The path of the folder on the current file system.
+        type: string
+  HashDecorator:
+    description: The hash decorator contains one or more types of hashes corresponding to the entity.
+    type: object
+    properties:
+      md5:
+        description: The md5 hash of the entity"s binary contents.
+        type: string
+      sha1:
+        description: The sha1 hash of the entity"s binary contents.
+        type: string
+      sha256:
+        description: The sha256 hash of the entity"s binary contents.
+        type: string
+  MimeTypeDecorator:
+    description: The mimeType decorator contains a reference to the type of media that is contained by the entity. A list of types can be found on http://www.freeformatter.com/mime-types-list.html.
+    type: object
+    required:
+      - type
+    properties:
+      type:
+        description: The MIME Type of the entity"s binary contents.
+        type: string
+  ModifiedDecorator:
+    description: The modified decorator signifies when an entity was last modified.
+    type: object
+    required:
+      - date
+    properties:
+      date:
+        description: The last modification date of the entity.
+        type: string
+        format: date-time
+      by:
+        description: The name of the user or entity that last modified this entity.
+        type: string
+  NameDecorator:
+    description: The name decorator represents both a technical name and a human readable name for an entity. This could be anything from the title of a web page to the filename of a document.
+    type: object
+    required:
+      - displayName
+      - systemName
+    properties:
+      displayName:
+        description: The human readable name of the entity.
+        type: string
+      systemName:
+        description: The technical name of the entity.
+        type: string
+  ParentDecorator:
+    description: The parent decorator contains a reference to the entity"s parent.
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        description: The url that points to the entity"s parent.
+        type: string
+  PreviewDecorator:
+    description: The preview decorator provides a location for previews of an entity. For instance, if the entity is a piece of source code from GitHub, the preview.html field contains an url to the GitHub view of that code.
+    type: object
+    required:
+      - html
+    properties:
+      html:
+        description: A web view that can be opened in a browser.
+        type: string
+        format: uri
+  PropertiesDecorator:
+    description: The properties decorator contains a collection of read-only properties that describe the entity in a repository-specific way.
+    type: object
+    additionalProperties:
+      type: string
+  VersionDecorator:
+    description: The version decorator contains the version number of the entity.
+    type: object
+    required:
+      - tag
+    properties:
+      tag:
+        description: The version number or tag of this entity.
+        type: string
+  ErrorResponse:
+    description: The preview decorator provides a location for previews of an entity. For instance, if the entity is a piece of source code from GitHub, the preview.html field contains an url to the GitHub view of that code.
+    type: object
+    properties:
+      message:
+        description: A contextual message that describes the cause of this error.
+        type: string
+      error:
+        description: A more general error message.
+        type: string
+      status:
+        description: The http status code.
+        type: number
+      timestamp:
+        description: The date this exception occurred.
+        type: string
+      exception:
+        description: The type of exception that occurred in the backend.
+        type: string
+      location:
+        description: The location in the backend where this error occurred.
+        type: string
+      path:
+        description: The request URI that caused this error.
+        type: string
+      parameters:
+        description: The parameters that were passed to this request.
+        type: object
+        additionalProperties:
+          type: string
+  EntityResponse:
+    type: object
+    properties:
+      entity:
+        $ref: "#/definitions/Entity"
+      children:
+        type: array
+        items:
+          $ref: "#/definitions/Entity"
+  Decorators:
+    type: object
+    properties:
+      container:
+        $ref:  "#/definitions/ContainerDecorator"
+      created:
+        $ref:  "#/definitions/CreatedDecorator"
+      description:
+        $ref:  "#/definitions/DescriptionDecorator"
+      file:
+        $ref:  "#/definitions/FileDecorator"
+      filesystem:
+        $ref:  "#/definitions/FileSystemDecorator"
+      hash:
+        $ref:  "#/definitions/HashDecorator"
+      mimeType:
+        $ref:  "#/definitions/MimeTypeDecorator"
+      modified:
+        $ref:  "#/definitions/ModifiedDecorator"
+      name:
+        $ref:  "#/definitions/NameDecorator"
+      parent:
+        $ref:  "#/definitions/ParentDecorator"
+      preview:
+        $ref:  "#/definitions/PreviewDecorator"
+      properties:
+        $ref:  "#/definitions/PropertiesDecorator"
+      version:
+        $ref:  "#/definitions/VersionDecorator"
+swagger: "2.0"
+info:
+  license:
+    name: Apache License Version 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0"
+  contact:
+    name: Sphereon Team
+    url: "https://sphereon.com"
+    email: dev@sphereon.com
+  termsOfService: "https://sphereon.com"
+  title: Xillio Engine
+  version: "0.1"
+tags:
+  - name: All
+    description: All API"s
+  - name: Entity
+    description: Entity API
+  - name: Content
+    description: Binary Content API

@@ -1,13 +1,11 @@
-# xillio-engine-integration
-This project contains Xillio Engine integration code. Specifically:
+# jclouds-xillio-engine
+This project contains the Xillio Engine jclouds provider
 
-* [jclouds blob storage integration](jclouds-xillio-engine)
-* [Xillio java domain objects](xillio-engine-sdk-generator/java8-xillio-engine-domain)
-* [Swagger / OpenAPI v2 SDK's and generators](xillio-engine-sdk-generator)
+This allows you to use the jclouds blobstore component to store, update and delete files and folders against any supported Xillio Engine backend
 
 ## Requirements
 
-Building SDK's requires [Maven](https://maven.apache.org/) to be installed.
+Building  jclouds-xillio-engine requires [Maven](https://maven.apache.org/) to be installed.
 
 
 ## Author
