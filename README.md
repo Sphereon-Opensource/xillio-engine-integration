@@ -2,8 +2,8 @@
 This project contains Xillio Engine integration code. Specifically:
 
 * [jclouds blob storage integration](jclouds-xillio-engine)
-* [Xillio java domain objects](xillio-engine-sdk-generator/java8-xillio-engine-domain)
-* [Swagger / OpenAPI v2 SDK's and generators](xillio-engine-sdk-generator)
+* [Xillio java domain objects](xillio-engine-sdk/java8-xillio-engine-domain)
+* [Swagger / OpenAPI v2 SDK's and generators](xillio-engine-sdk)
 
 ## Requirements
 
