@@ -40,6 +40,7 @@ import org.jclouds.blobstore.util.BlobUtils;
 import org.jclouds.collect.Memoized;
 import org.jclouds.domain.Credentials;
 import org.jclouds.domain.Location;
+import org.jclouds.io.MutableContentMetadata;
 import org.jclouds.io.Payload;
 import org.jclouds.io.PayloadSlicer;
 import org.jclouds.location.Provider;
@@ -62,9 +63,13 @@ import org.jclouds.xillio.engine.reference.XillioConstants;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.ByteStreams.toByteArray;
 
 @Singleton
 public class XillioEngineBlobStore extends BaseBlobStore {
@@ -191,6 +196,21 @@ public class XillioEngineBlobStore extends BaseBlobStore {
 
     @Override
     public String putBlob(String containerName, Blob blob, PutOptions putOptions) {
+        MutableContentMetadata contentMetadata = checkNotNull(blob.getPayload().getContentMetadata());
+        long length = checkNotNull(contentMetadata.getContentLength());
+
+        if (length != 0 && (putOptions.isMultipart() || !blob.getPayload().isRepeatable())) {
+            // JCLOUDS-912 prevents using single-part uploads with InputStream payloads.
+            // Work around this with multi-part upload which buffers parts in-memory.
+            try {
+                byte[] bytes = toByteArray(blob.getPayload().openStream());
+                blob.setPayload(bytes);
+                blob.getPayload().setContentMetadata(contentMetadata);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("failed to read stream", e);
+            }
+        }
+
         Entity entity = blobMetadataToEntity.apply(blob);
         EntityResponse response;
         BlobToFileFolderName.FileFolder fileFolder = blobToFileFolderName.apply(blob);
