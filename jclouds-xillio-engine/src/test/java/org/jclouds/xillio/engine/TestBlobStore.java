@@ -26,8 +26,14 @@ import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.blobstore.options.PutOptions;
+import org.jclouds.domain.Credentials;
 import org.jclouds.http.HttpResponseException;
 import org.jclouds.io.ByteStreams2;
+import org.jclouds.oauth.v2.AuthorizationApi;
+import org.jclouds.oauth.v2.config.CredentialType;
+import org.jclouds.oauth.v2.config.OAuthProperties;
+import org.jclouds.oauth.v2.domain.Claims;
+import org.jclouds.oauth.v2.domain.Token;
 import org.jclouds.xillio.engine.reference.XillioConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -54,6 +60,8 @@ public class TestBlobStore {
             System.setProperty("https.proxyPort", "8888");
         }
     }
+
+
 
     @Test(priority = 1)
     public void assertContainerNotExists() {
@@ -202,16 +210,23 @@ public class TestBlobStore {
 
 
     protected BlobStore getXillioBlobStore() {
-        String provider = "xillio-engine";
-        ContextBuilder contextBuilder = ContextBuilder.newBuilder(provider);
+        Credentials credentials = new Credentials("demo", "demo");
+        ContextBuilder contextBuilder = ContextBuilder.newBuilder(XillioConstants.XILLIO_ENGINE);
         Properties properties = new Properties();
+        overrides.setProperty("azureblob.identity", user);
+        overrides.setProperty("azureblob.credential", decrypted);
         properties.setProperty(XillioConstants.ENDPOINT, System.getProperty("XILLIO.TEST.ENDPOINT", "https://sandbox.xill.io"));
         properties.setProperty(XillioConstants.IDENTITY, "test");
+        properties.setProperty(OAuthProperties.CREDENTIAL_TYPE, CredentialType.BEARER_TOKEN_CREDENTIALS.toString());
+
         contextBuilder.overrides(properties);
+        contextBuilder.credentials(credentials)
 
         BlobStoreContext blobStoreContext = contextBuilder.buildView(BlobStoreContext.class);
         BlobStore blobStore = blobStoreContext.getBlobStore();
 
         return blobStore;
     }
+
+
 }

@@ -113,6 +113,10 @@ public class XillioEngineBlobStore extends BaseBlobStore {
     }
 
 
+    void test() {
+//        Credentials credentials = new GoogleCredentialsFromJson(jsoncreds);
+    }
+
     @Override
     protected boolean deleteAndVerifyContainerGone(String containerName) {
         return false; // TODO: 3-11-2017 Delete configuration api call

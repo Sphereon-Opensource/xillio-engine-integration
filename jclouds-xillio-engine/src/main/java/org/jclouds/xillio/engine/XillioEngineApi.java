@@ -22,12 +22,9 @@ import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.io.Payload;
 import org.jclouds.io.PayloadEnclosing;
 import org.jclouds.javax.annotation.Nullable;
-import org.jclouds.rest.annotations.Fallback;
-import org.jclouds.rest.annotations.MapBinder;
-import org.jclouds.rest.annotations.PayloadParam;
-import org.jclouds.rest.annotations.QueryParams;
-import org.jclouds.rest.annotations.ResponseParser;
+import org.jclouds.rest.annotations.*;
 import org.jclouds.xillio.engine.binders.MultipartUploadBinder;
+import org.jclouds.xillio.engine.filters.RequestHeaderFilter;
 import org.jclouds.xillio.engine.model.Entity;
 import org.jclouds.xillio.engine.model.EntityResponse;
 import org.jclouds.xillio.engine.options.EntityQueryOptions;
@@ -47,7 +44,7 @@ import java.io.Closeable;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 
-
+@RequestFilters(RequestHeaderFilter.class)
 public interface XillioEngineApi extends Closeable {
 
     @Named("ListRepositories")

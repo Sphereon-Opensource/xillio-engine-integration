@@ -23,7 +23,7 @@ public final class XillioConstants {
     private XillioConstants() {
     }
 
-    private static final String XILLIO_ENGINE = "xillio-engine";
+    public static final String XILLIO_ENGINE = "xillio-engine";
 
     private static final String BASE = "jclouds." + XILLIO_ENGINE;
 
