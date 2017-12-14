@@ -19,6 +19,7 @@ package org.jclouds.xillio.engine.blobstore;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
+import com.google.inject.name.Named;
 import org.jclouds.blobstore.BlobStoreContext;
 import org.jclouds.blobstore.domain.Blob;
 import org.jclouds.blobstore.domain.BlobAccess;
@@ -50,6 +51,7 @@ import org.jclouds.rest.ResourceAlreadyExistsException;
 import org.jclouds.rest.ResourceNotFoundException;
 import org.jclouds.util.Strings2;
 import org.jclouds.xillio.engine.XillioEngineApi;
+import org.jclouds.xillio.engine.auth.AuthorizationApi;
 import org.jclouds.xillio.engine.blobstore.functions.BlobMetadataToEntity;
 import org.jclouds.xillio.engine.blobstore.functions.BlobToFileFolderName;
 import org.jclouds.xillio.engine.blobstore.functions.EntityToBlobMetadata;
@@ -78,6 +80,7 @@ public class XillioEngineBlobStore extends BaseBlobStore {
     private final Supplier<Credentials> credentialsSupplier;
 
     private final String apiEndpoint;
+    private final AuthorizationApi authorizationApi;
     private final XillioEngineApi api;
     private final EntityToStorageMetadata entityToStorageMetadata;
     private final EntityToBlobMetadata entityToBlobMetadata;
@@ -94,14 +97,16 @@ public class XillioEngineBlobStore extends BaseBlobStore {
                           @Provider Supplier<Credentials> credentialsSupplier,
                           PayloadSlicer slicer,
                           XillioEngineApi api,
+                          AuthorizationApi authorizationApi,
                           EntityToStorageMetadata entityToStorageMetadata,
                           EntityToBlobMetadata entityToBlobMetadata,
                           BlobMetadataToEntity blobMetadataToEntity,
                           ListContainerOptionsToEntityQueryOptions listContainerOptionsToEntityQueryOptions,
-                          BlobToFileFolderName blobToFileFolderName
-                         /*, @Named("xillio-engine.endpoint") String apiEndpoint*/
+                          BlobToFileFolderName blobToFileFolderName,
+                          @Named(XillioConstants.API_ENDPOINT) String apiEndpoint
     ) {
         super(context, blobUtils, defaultLocation, locations, slicer);
+        this.authorizationApi = authorizationApi;
         this.api = api;
         this.entityToStorageMetadata = entityToStorageMetadata;
         this.entityToBlobMetadata = entityToBlobMetadata;
@@ -109,13 +114,10 @@ public class XillioEngineBlobStore extends BaseBlobStore {
         this.listContainerOptionsToEntityQueryOptions = listContainerOptionsToEntityQueryOptions;
         this.credentialsSupplier = credentialsSupplier;
         this.blobToFileFolderName = blobToFileFolderName;
-        this.apiEndpoint = "https://sandbox.xill.io/";
+        this.apiEndpoint = apiEndpoint;
     }
 
 
-    void test() {
-//        Credentials credentials = new GoogleCredentialsFromJson(jsoncreds);
-    }
 
     @Override
     protected boolean deleteAndVerifyContainerGone(String containerName) {

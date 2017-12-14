@@ -16,28 +16,33 @@
 
 package org.jclouds.xillio.engine.config;
 
-import com.google.inject.Inject;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.inject.Provides;
+import com.google.inject.name.Named;
 import org.jclouds.http.HttpErrorHandler;
 import org.jclouds.http.annotation.ClientError;
 import org.jclouds.http.annotation.Redirection;
 import org.jclouds.http.annotation.ServerError;
-import org.jclouds.json.config.GsonModule;
+import org.jclouds.oauth.v2.config.Authorization;
 import org.jclouds.rest.ConfiguresHttpApi;
 import org.jclouds.rest.config.HttpApiModule;
 import org.jclouds.xillio.engine.XillioEngineApi;
+import org.jclouds.xillio.engine.auth.AuthorizationApi;
 import org.jclouds.xillio.engine.handlers.XillioEngineErrorHandler;
+import org.jclouds.xillio.engine.reference.XillioConstants;
+
+import java.net.URI;
+
+import static org.jclouds.rest.config.BinderUtils.bindHttpApi;
 
 @ConfiguresHttpApi
 public class XillioEngineHttpApiModule extends HttpApiModule<XillioEngineApi> {
-    @Inject
-    GsonModule.JsonAdapterBindings jsonAdapterBindings;
 
     @Override
     protected void configure() {
-//        binder().requestStaticInjection(GsonModule.JsonAdapterBindings.class);
         super.configure();
-
-//        jsonAdapterBindings.getFactories().add(new OffsetDateTimeTypeAdapterFactory());
+        bindHttpApi(binder(), AuthorizationApi.class);
     }
 
     @Override
@@ -47,4 +52,10 @@ public class XillioEngineHttpApiModule extends HttpApiModule<XillioEngineApi> {
         bind(HttpErrorHandler.class).annotatedWith(ServerError.class).to(XillioEngineErrorHandler.class);
     }
 
+
+    @Provides
+    @Authorization
+    protected Supplier<URI> oauthEndpoint(@Named(XillioConstants.AUTH_ENDPOINT) String endpoint) {
+        return Suppliers.ofInstance(URI.create(endpoint));
+    }
 }

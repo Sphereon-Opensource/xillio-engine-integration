@@ -27,8 +27,12 @@ public final class XillioConstants {
 
     private static final String BASE = "jclouds." + XILLIO_ENGINE;
 
-    public static final String ENDPOINT = BASE + ".endpoint";
-    public static final String IDENTITY = XILLIO_ENGINE + ".identity";
+    public static final String API_ENDPOINT = BASE + ".endpoint";
+    public static final String CLIENT_ID = XILLIO_ENGINE + ".identity";
+    public static final String CLIENT_SECRET = XILLIO_ENGINE + ".secret";
+    public static final String USERNAME = XILLIO_ENGINE + ".username";
+    public static final String PASSWORD = XILLIO_ENGINE + ".password";
+    public static final String AUTH_ENDPOINT = BASE + "auth-endpoint";
 
     public static final class Domain {
 
