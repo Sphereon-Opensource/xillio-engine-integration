@@ -26,8 +26,10 @@ import org.jclouds.rest.annotations.Fallback;
 import org.jclouds.rest.annotations.MapBinder;
 import org.jclouds.rest.annotations.PayloadParam;
 import org.jclouds.rest.annotations.QueryParams;
+import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.ResponseParser;
 import org.jclouds.xillio.engine.binders.MultipartUploadBinder;
+import org.jclouds.xillio.engine.filters.XillioSecretFlow;
 import org.jclouds.xillio.engine.model.Entity;
 import org.jclouds.xillio.engine.model.EntityResponse;
 import org.jclouds.xillio.engine.options.EntityQueryOptions;
@@ -47,7 +49,7 @@ import java.io.Closeable;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 
-
+@RequestFilters({XillioSecretFlow.class})
 public interface XillioEngineApi extends Closeable {
 
     @Named("ListRepositories")

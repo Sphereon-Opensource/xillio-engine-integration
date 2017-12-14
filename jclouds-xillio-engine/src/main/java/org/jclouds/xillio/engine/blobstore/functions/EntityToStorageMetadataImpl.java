@@ -54,13 +54,14 @@ import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.Decorat
 import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.DecoratorName.DESCRIPTION_SHORT;
 import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.DecoratorName.FILE_SYSTEM_PATH;
 import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.DecoratorName.MIME_TYPE_TYPE;
-
-import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.Kind.FOLDER;
 import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.Kind.CONTAINER;
+import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.Kind.FILE_SYSTEM;
+import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.Kind.FOLDER;
 import static org.jclouds.xillio.engine.reference.XillioConstants.Domain.Kind.CONFIGURATION;
 
 public class EntityToStorageMetadataImpl<T extends MutableStorageMetadata> implements Function<Entity, T> {
 
+    public static final String PATH_REGEX = "http.*\\/v2\\/entities\\/([^\\/]+)\\/?(.*)";
     private Supplier<Location> defaultLocation;
 
     public EntityToStorageMetadataImpl() {
@@ -82,7 +83,7 @@ public class EntityToStorageMetadataImpl<T extends MutableStorageMetadata> imple
         if (parent == null || parent.getId() == null) {
             return null;
         }
-        return parent.getId().replaceFirst("http.*\\/v2\\/entities\\/([^\\/]+)\\/.*", "$1");
+        return parent.getId().replaceFirst(PATH_REGEX, "$1");
     }
 
 
@@ -90,7 +91,9 @@ public class EntityToStorageMetadataImpl<T extends MutableStorageMetadata> imple
         if (fromEntity == null || fromEntity.getId() == null) {
             return null;
         }
-        return fromEntity.getId().replaceFirst("http.*\\/v2\\/entities\\/[^\\/]+\\/(.*)", "$1");
+        boolean container = FILE_SYSTEM.getEntityValue().equals(fromEntity.getKind()) || CONTAINER.getEntityValue().equals(fromEntity.getKind());
+        return fromEntity.getId().replaceFirst(PATH_REGEX, container ? "$1" : "$2");
+
     }
 
     private T getTypedMetadata(Entity fromEntity) {
@@ -109,7 +112,7 @@ public class EntityToStorageMetadataImpl<T extends MutableStorageMetadata> imple
         } else if (isKind(fromEntity, FOLDER)) {
             toMetadata = (T) new MutableStorageMetadataImpl();
             toMetadata.setType(StorageType.FOLDER);
-        } else if (isKind(fromEntity, CONFIGURATION) || isKind(fromEntity, CONTAINER)) {
+        } else if (isKind(fromEntity, CONFIGURATION) || isKind(fromEntity, CONTAINER) || isKind(fromEntity, FILE_SYSTEM)) {
             toMetadata = (T) new MutableStorageMetadataImpl();
             toMetadata.setType(StorageType.CONTAINER);
         } else {

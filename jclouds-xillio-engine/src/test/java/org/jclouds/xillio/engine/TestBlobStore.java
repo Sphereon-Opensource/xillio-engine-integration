@@ -26,8 +26,10 @@ import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.blobstore.options.PutOptions;
+import org.jclouds.domain.Credentials;
 import org.jclouds.http.HttpResponseException;
 import org.jclouds.io.ByteStreams2;
+import org.jclouds.xillio.engine.auth.XillioCredentialsSupplier;
 import org.jclouds.xillio.engine.reference.XillioConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -39,7 +41,7 @@ import java.util.Properties;
 public class TestBlobStore {
 
     private final BlobStore blobStore = getXillioBlobStore();
-    private static final String container = System.getProperty("XILLIO.TEST.CONTAINER", "5a0d9e26857aba0005396d53");
+    private static String container;
     private static final String filename1 = "file1.txt";
     private static final String filename2 = "folder/file1.txt";
 
@@ -54,6 +56,24 @@ public class TestBlobStore {
             System.setProperty("https.proxyPort", "8888");
         }
     }
+
+    @Test
+    public void listReposAndUseLast() {
+        PageSet<? extends StorageMetadata> repos = blobStore.list();
+        Assert.assertNotNull(repos);
+        Assert.assertNotEquals(0, repos.size());
+
+        System.out.println("=============================== Xillio Repo List start =============================");
+        for (StorageMetadata storageMetadata : repos) {
+            System.out.println(storageMetadata);
+            container = storageMetadata.getName();
+        }
+        System.out.println("=============================== Xillio Repo List end ===============================");
+        Assert.assertNotNull(container);
+        Assert.assertEquals(24, container.length());
+
+    }
+
 
     @Test(priority = 1)
     public void assertContainerNotExists() {
@@ -202,16 +222,30 @@ public class TestBlobStore {
 
 
     protected BlobStore getXillioBlobStore() {
-        String provider = "xillio-engine";
-        ContextBuilder contextBuilder = ContextBuilder.newBuilder(provider);
+        Credentials credentials = new Credentials("demo", "demo");
+        ContextBuilder contextBuilder = ContextBuilder.newBuilder(XillioConstants.XILLIO_ENGINE);
         Properties properties = new Properties();
-        properties.setProperty(XillioConstants.ENDPOINT, System.getProperty("XILLIO.TEST.ENDPOINT", "https://sandbox.xill.io"));
-        properties.setProperty(XillioConstants.IDENTITY, "test");
+//        overrides.setProperty("azureblob.identity", user);
+//        overrides.setProperty("azureblob.credential", decrypted);
+        String endpoint = System.getProperty("XILLIO.TEST.API-ENDPOINT", "https://sandbox.xill.io");
+        properties.setProperty(XillioConstants.API_ENDPOINT, endpoint);
+        properties.setProperty(XillioConstants.AUTH_ENDPOINT, endpoint + "/oauth/token");
+        properties.setProperty(XillioConstants.CLIENT_ID, "xilliosandbox");
+        properties.setProperty(XillioConstants.CLIENT_SECRET, "xilliosandbox");
+        properties.setProperty(XillioConstants.USERNAME, "xillio");
+        properties.setProperty(XillioConstants.PASSWORD, "demo");
+
+//        properties.setProperty(OAuthProperties.CREDENTIAL_TYPE, CredentialType.BEARER_TOKEN_CREDENTIALS.toString());
+
+        contextBuilder.credentialsSupplier(new XillioCredentialsSupplier(properties));
         contextBuilder.overrides(properties);
+//        contextBuilder.credentials(credentials)
 
         BlobStoreContext blobStoreContext = contextBuilder.buildView(BlobStoreContext.class);
         BlobStore blobStore = blobStoreContext.getBlobStore();
 
         return blobStore;
     }
+
+
 }

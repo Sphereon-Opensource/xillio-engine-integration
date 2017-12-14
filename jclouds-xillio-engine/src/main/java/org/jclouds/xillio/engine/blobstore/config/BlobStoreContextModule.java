@@ -27,6 +27,6 @@ public class BlobStoreContextModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ConsistencyModel.class).toInstance(ConsistencyModel.STRICT);
-        bind(BlobStore.class).to(XillioEngineBlobStore.class).in(Scopes.SINGLETON);
+        bind(BlobStore.class).to(XillioEngineBlobStore.class).in(Scopes.NO_SCOPE);
     }
 }
