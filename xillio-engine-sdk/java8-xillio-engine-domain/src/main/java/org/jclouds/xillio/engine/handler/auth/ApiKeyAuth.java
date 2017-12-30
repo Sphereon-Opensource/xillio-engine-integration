@@ -18,7 +18,7 @@ import org.jclouds.xillio.engine.handler.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;

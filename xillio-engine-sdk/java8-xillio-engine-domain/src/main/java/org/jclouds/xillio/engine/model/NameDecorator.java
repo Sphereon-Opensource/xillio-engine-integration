@@ -27,7 +27,7 @@ import java.io.IOException;
  * The name decorator represents both a technical name and a human readable name for an entity. This could be anything from the title of a web page to the filename of a document.
  */
 @ApiModel(description = "The name decorator represents both a technical name and a human readable name for an entity. This could be anything from the title of a web page to the filename of a document.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class NameDecorator {
   @SerializedName("displayName")
   private String displayName = null;

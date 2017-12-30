@@ -31,7 +31,7 @@ import java.util.Map;
  * The preview decorator provides a location for previews of an entity. For instance, if the entity is a piece of source code from GitHub, the preview.html field contains an url to the GitHub view of that code.
  */
 @ApiModel(description = "The preview decorator provides a location for previews of an entity. For instance, if the entity is a piece of source code from GitHub, the preview.html field contains an url to the GitHub view of that code.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class ErrorResponse {
   @SerializedName("message")
   private String message = null;

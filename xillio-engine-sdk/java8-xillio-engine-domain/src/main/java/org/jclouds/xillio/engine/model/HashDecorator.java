@@ -13,17 +13,21 @@
 
 package org.jclouds.xillio.engine.model;
 
+import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Objects;
+import java.io.IOException;
 
 /**
  * The hash decorator contains one or more types of hashes corresponding to the entity.
  */
 @ApiModel(description = "The hash decorator contains one or more types of hashes corresponding to the entity.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class HashDecorator {
   @SerializedName("md5")
   private String md5 = null;

@@ -27,7 +27,7 @@ import java.io.IOException;
  * The container decorator signifies an entity that can have children.
  */
 @ApiModel(description = "The container decorator signifies an entity that can have children.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class ContainerDecorator {
   @SerializedName("hasChildren")
   private Boolean hasChildren = null;

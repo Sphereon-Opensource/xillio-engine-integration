@@ -45,6 +45,43 @@
 
     </properties>
 
+    <scm>
+        <connection>scm:git:git@github.com:Sphereon-Opensource/xillio-engine-integration.git</connection>
+        <developerConnection>scm:git:git@github.com:Sphereon-Opensource/xillio-engine-integration.git</developerConnection>
+        <url>https://github.com/Sphereon-Opensource/xillio-engine-integration/tree/develop/jclouds-xillio-engine</url>
+    </scm>
+    <licenses>
+        <license>
+            <name>Apache2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Sphereon Devops Team</name>
+            <email>dev@sphereon.com</email>
+            <organization>Sphereon B.V.</organization>
+            <organizationUrl>https://sphereon.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sphereon-opensource-snapshots</id>
+            <name>Sphereon Public Snapshots</name>
+            <url>http://nexus.qa.sphereon.com/repository/sphereon-opensource-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sphereon-opensource-releases</id>
+            <name>Sphereon Public Releases</name>
+            <url>http://nexus.qa.sphereon.com/repository/sphereon-opensource-releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+
     <dependencies>
         <dependency>
             <groupId>org.jclouds</groupId>

@@ -22,7 +22,7 @@ import java.util.Map;
  * The properties decorator contains a collection of read-only properties that describe the entity in a repository-specific way.
  */
 @ApiModel(description = "The properties decorator contains a collection of read-only properties that describe the entity in a repository-specific way.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class PropertiesDecorator extends HashMap<String, String> {
 
   @Override

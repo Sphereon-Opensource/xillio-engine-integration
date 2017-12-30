@@ -8,15 +8,12 @@
   <version>0.1.0-SNAPSHOT</version>
   <url>https://github.com/swagger-api/swagger-codegen</url>
   <description>Xillio Engine Domain classes for Java 8</description>
-  <scm>
-    <connection>scm:git:git@github.com:Sphereon-OSS/xillio-engine-integration.git</connection>
-    <developerConnection>scm:git:git@github.com:Sphereon-OSS/xillio-engine-integration.git</developerConnection>
-    <url>https://github.com/Sphereon-OSS/xillio-engine-integration</url>
-  </scm>
-  <prerequisites>
-    <maven>2.2.0</maven>
-  </prerequisites>
 
+  <scm>
+    <connection>scm:git:git@github.com:Sphereon-Opensource/xillio-engine-integration.git</connection>
+    <developerConnection>scm:git:git@github.com:Sphereon-Opensource/xillio-engine-integration.git</developerConnection>
+    <url>https://github.com/Sphereon-Opensource/xillio-engine-integration/tree/develop/xillio-engine-sdk</url>
+  </scm>
   <licenses>
     <license>
       <name>Apache2</name>
@@ -27,12 +24,27 @@
 
   <developers>
     <developer>
-      <name>Swagger</name>
-      <email>apiteam@swagger.io</email>
-      <organization>Swagger</organization>
-      <organizationUrl>http://swagger.io</organizationUrl>
+      <name>Sphereon Devops Team</name>
+      <email>dev@sphereon.com</email>
+      <organization>Sphereon B.V.</organization>
+      <organizationUrl>https://sphereon.com</organizationUrl>
     </developer>
   </developers>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sphereon-opensource-snapshots</id>
+      <name>Sphereon Public Snapshots</name>
+      <url>http://nexus.qa.sphereon.com/repository/sphereon-opensource-snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sphereon-opensource-releases</id>
+      <name>Sphereon Public Releases</name>
+      <url>http://nexus.qa.sphereon.com/repository/sphereon-opensource-releases/</url>
+    </repository>
+  </distributionManagement>
+
+
 
   <build>
     <plugins>

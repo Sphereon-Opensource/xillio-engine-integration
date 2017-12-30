@@ -27,7 +27,7 @@ import java.io.IOException;
  * The fileSystem decorator contains the path of a file or folder on a file system.
  */
 @ApiModel(description = "The fileSystem decorator contains the path of a file or folder on a file system.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class FileSystemDecorator {
   @SerializedName("path")
   private String path = null;

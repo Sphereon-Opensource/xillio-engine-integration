@@ -27,7 +27,7 @@ import java.io.IOException;
  * The mimeType decorator contains a reference to the type of media that is contained by the entity. A list of types can be found on http://www.freeformatter.com/mime-types-list.html.
  */
 @ApiModel(description = "The mimeType decorator contains a reference to the type of media that is contained by the entity. A list of types can be found on http://www.freeformatter.com/mime-types-list.html.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class MimeTypeDecorator {
   @SerializedName("type")
   private String type = null;

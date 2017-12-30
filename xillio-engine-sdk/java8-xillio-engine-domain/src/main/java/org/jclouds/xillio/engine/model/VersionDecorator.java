@@ -27,7 +27,7 @@ import java.io.IOException;
  * The version decorator contains the version number of the entity.
  */
 @ApiModel(description = "The version decorator contains the version number of the entity.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class VersionDecorator {
   @SerializedName("tag")
   private String tag = null;

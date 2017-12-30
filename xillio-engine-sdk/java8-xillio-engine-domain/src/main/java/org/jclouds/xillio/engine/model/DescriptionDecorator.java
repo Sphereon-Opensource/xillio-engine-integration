@@ -27,7 +27,7 @@ import java.io.IOException;
  * The description decorator provides a small excerpt or description for an entity. This is generally used as a preview message or subtitle.
  */
 @ApiModel(description = "The description decorator provides a small excerpt or description for an entity. This is generally used as a preview message or subtitle.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:36:36.417+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-30T06:23:19.976+01:00")
 public class DescriptionDecorator {
   @SerializedName("short")
   private String _short = null;
