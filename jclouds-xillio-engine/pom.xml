@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache.jclouds</groupId>
         <artifactId>jclouds-project</artifactId>
-        <version>2.0.3</version>
+        <version>2.1.2</version>
     </parent>
     <groupId>org.apache.jclouds</groupId>
     <artifactId>xillio-engine</artifactId>
@@ -31,7 +31,7 @@
     <version>2.0.3-SNAPSHOT</version>
 
     <properties>
-        <jclouds.version>2.0.3</jclouds.version>
+        <jclouds.version>2.1.2</jclouds.version>
         <test.xillio-engine.endpoint>https://sandbox.xill.io</test.xillio-engine.endpoint>
         <test.xillio-engine.identity>FIXME</test.xillio-engine.identity>
         <test.xillio-engine.credential>FIXME</test.xillio-engine.credential>
