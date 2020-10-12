@@ -16,7 +16,7 @@
         <gson-version>2.6.2</gson-version>
         <jodatime-version>2.9.3</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13.1</junit-version>
         <api-version>0.1.0</api-version>
         <sdk-package>com.sphereon.sdk.xillio.engine</sdk-package>
         <sdk-package-csharp>Sphereon.SDK.Xillio.Engine</sdk-package-csharp>
